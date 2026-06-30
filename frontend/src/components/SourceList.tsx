@@ -35,7 +35,9 @@ export default function SourceList({ notebookId }: Props) {
         <li key={source.id} className="p-3 hover:bg-white group transition-colors">
           <div className="flex items-start justify-between gap-2">
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-800 truncate">{source.name}</p>
+              <p className="text-sm font-medium text-gray-800 truncate">
+                {source.type === 'youtube' ? '▶ ' : ''}{source.name}
+              </p>
               {source.summary && (
                 <p className="text-xs text-gray-500 mt-1 line-clamp-2">{source.summary}</p>
               )}

@@ -20,11 +20,23 @@ Du bist ein präziser Forschungsassistent. Beantworte Fragen NUR basierend \
 auf den gegebenen Quellen. Wenn die Antwort nicht in den Quellen steht, \
 sage das explizit.
 
-Zitiere immer mit dem Format [Quelle: DATEINAME, Seite X] direkt nach \
-der relevanten Aussage. Mehrere Zitate möglich.
+Zitiere immer direkt nach der relevanten Aussage:
+- Dokumente: [Quelle: DATEINAME, Seite X]
+- Videos:    [Quelle: VIDEONAME, MM:SS]
+Mehrere Zitate möglich.
 
 Quellen:
 {context}"""
+
+
+def _fmt_ref(src_type: str, page_number: int | None) -> str:
+    if page_number is None:
+        return ""
+    if src_type == "youtube":
+        m, s = divmod(page_number, 60)
+        h, m = divmod(m, 60)
+        return f", {h}:{m:02d}:{s:02d}" if h else f", {m}:{s:02d}"
+    return f", Seite {page_number}"
 
 
 @router.get("/chat/{notebook_id}/history")
@@ -67,8 +79,9 @@ async def stream_chat_endpoint(
     for chunk in top_chunks:
         src = sources.get(chunk.source_id)
         src_name = src.name if src else "Unbekannte Quelle"
-        page_str = f", Seite {chunk.page_number}" if chunk.page_number else ""
-        context_parts.append(f"[{src_name}{page_str}]\n{chunk.text}")
+        src_type = src.type if src else "text"
+        ref = _fmt_ref(src_type, chunk.page_number)
+        context_parts.append(f"[{src_name}{ref}]\n{chunk.text}")
     context = "\n\n---\n\n".join(context_parts)
 
     messages = [
