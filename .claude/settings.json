@@ -1,0 +1,23 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .claude/hooks/ruff_check.py",
+            "timeout": 30,
+            "statusMessage": "ruff: checking..."
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/eslint_fix.py",
+            "timeout": 30,
+            "statusMessage": "eslint: fixing..."
+          }
+        ]
+      }
+    ]
+  }
+}
