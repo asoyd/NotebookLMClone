@@ -63,7 +63,7 @@ export default function SourceUpload({ notebookId }: Props) {
         <input
           value={url}
           onChange={e => setUrl(e.target.value)}
-          placeholder="Paste a URL…"
+          placeholder="Paste a URL or YouTube link…"
           className="flex-1 text-xs px-2 py-1.5 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-blue-400"
           disabled={uploading}
         />

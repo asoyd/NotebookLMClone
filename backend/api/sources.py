@@ -1,5 +1,7 @@
+import asyncio
 import json
 import os
+import re
 from typing import Optional
 from uuid import uuid4
 
@@ -10,13 +12,19 @@ from sqlmodel import Session, select
 from database import engine, get_session
 from models import Chunk, Source
 from rag.embedder import embed_batch
-from rag.ingestion import parse_pdf, parse_text, parse_url
+from rag.ingestion import parse_pdf, parse_text, parse_url, parse_youtube, _get_youtube_title
 from llm.client import complete
 
 router = APIRouter()
 
 UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
+
+_YT_PATTERN = re.compile(r"(?:youtube\.com/watch|youtu\.be/)", re.IGNORECASE)
+
+
+def _is_youtube_url(url: str) -> bool:
+    return bool(_YT_PATTERN.search(url))
 
 
 async def _ingest_source(source_id: str):
@@ -27,6 +35,8 @@ async def _ingest_source(source_id: str):
         try:
             if source.type == "pdf":
                 raw_chunks = parse_pdf(source.file_path)
+            elif source.type == "youtube":
+                raw_chunks = parse_youtube(source.file_path)  # file_path stores original URL
             elif source.type == "url":
                 raw_chunks = parse_url(source.name)
             else:
@@ -56,6 +66,7 @@ async def _ingest_source(source_id: str):
             source.status = "ready"
         except Exception as e:
             source.status = "error"
+            source.summary = str(e)[:300]
             print(f"Ingestion error for {source_id}: {e}")
         session.commit()
 
@@ -88,7 +99,11 @@ async def upload_source(
             file_path=file_path,
         )
     elif url:
-        source = Source(notebook_id=notebook_id, name=url, type="url")
+        if _is_youtube_url(url):
+            title = await asyncio.to_thread(_get_youtube_title, url)
+            source = Source(notebook_id=notebook_id, name=title, type="youtube", file_path=url)
+        else:
+            source = Source(notebook_id=notebook_id, name=url, type="url")
     else:
         raise HTTPException(status_code=400, detail="Provide a file or URL")
 

@@ -5,7 +5,14 @@ import CitationChip from './CitationChip'
 
 interface Props { notebookId: string }
 
-const CITATION_RE = /\[Quelle: ([^,\]]+?)(?:,\s*Seite\s*(\d+))?\]/g
+const CITATION_RE = /\[Quelle: ([^\]]+?)(?:,\s*(?:Seite\s*(\d+)|(\d{1,2}:\d{2}(?::\d{2})?))\s*)?\]/g
+
+function tsToSeconds(ts: string): number {
+  const parts = ts.split(':').map(Number)
+  return parts.length === 3
+    ? parts[0] * 3600 + parts[1] * 60 + parts[2]
+    : parts[0] * 60 + parts[1]
+}
 
 function MessageContent({ content }: { content: string }) {
   const parts: React.ReactNode[] = []
@@ -26,7 +33,7 @@ function MessageContent({ content }: { content: string }) {
       <CitationChip
         key={`cite-${match.index}`}
         sourceName={match[1].trim()}
-        page={match[2] ? parseInt(match[2]) : undefined}
+        page={match[2] ? parseInt(match[2]) : match[3] ? tsToSeconds(match[3]) : undefined}
       />,
     )
     last = match.index + match[0].length
