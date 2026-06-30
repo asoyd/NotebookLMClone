@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useStore } from '../store/useStore'
+import AudioOverview from '../components/AudioOverview'
 import ChatPanel from '../components/ChatPanel'
 import SourceList from '../components/SourceList'
 import SourceUpload from '../components/SourceUpload'
@@ -47,6 +48,9 @@ export default function NotebookDetail() {
           </div>
           <div className="flex-1 overflow-y-auto">
             <SourceList notebookId={id} />
+            <div className="p-4 border-t border-gray-200">
+              <AudioOverview notebookId={id} />
+            </div>
           </div>
         </aside>
 
