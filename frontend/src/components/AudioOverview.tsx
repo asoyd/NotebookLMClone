@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { API_URL } from '../api/client'
 
 interface Props { notebookId: string }
 
@@ -10,8 +11,6 @@ export default function AudioOverview({ notebookId }: Props) {
   const [currentLine, setCurrentLine] = useState(-1)
   const [loading, setLoading] = useState(false)
   const cancelRef = useRef(false)
-
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
   const generate = async () => {
     setLoading(true)
