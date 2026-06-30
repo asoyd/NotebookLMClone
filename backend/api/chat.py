@@ -1,3 +1,6 @@
+import json
+import re
+
 from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse
 from sqlmodel import Session, select
@@ -9,6 +12,8 @@ from rag.retriever import find_top_chunks
 from llm.client import complete, stream_chat
 
 router = APIRouter()
+
+FLASHCARD_QUERY_EMBEDDING: list[float] = embed("key concepts and facts")
 
 SYSTEM_PROMPT = """\
 Du bist ein präziser Forschungsassistent. Beantworte Fragen NUR basierend \
@@ -105,12 +110,42 @@ async def audio_overview(notebook_id: str, session: Session = Depends(get_sessio
         },
         {"role": "user", "content": sample_text},
     ]
-    import json
     raw = await complete(messages, max_tokens=800)
+    raw = re.sub(r'^```(?:json)?\s*\n?|\n?```\s*$', '', raw.strip())
     try:
         return json.loads(raw)
-    except Exception:
+    except json.JSONDecodeError:
         return {"script": []}
+
+
+@router.post("/chat/{notebook_id}/flashcards")
+async def generate_flashcards(notebook_id: str, session: Session = Depends(get_session)):
+    all_chunks = session.exec(select(Chunk).where(Chunk.notebook_id == notebook_id)).all()
+    if not all_chunks:
+        return {"flashcards": []}
+
+    top_chunks = find_top_chunks(FLASHCARD_QUERY_EMBEDDING, all_chunks, k=8)
+    count = min(8, len(top_chunks))
+    context = "\n\n---\n\n".join(c.text for c in top_chunks)
+
+    messages = [
+        {
+            "role": "system",
+            "content": (
+                f"You are a study assistant. Given the following source material, generate exactly {count} flashcards. "
+                'Each flashcard has a "front" (a clear question) and a "back" (a concise answer, 1-3 sentences). '
+                "Respond with ONLY valid JSON in this exact format, no markdown fences:\n"
+                '{"flashcards": [{"front": "Question?", "back": "Answer."}]}'
+            ),
+        },
+        {"role": "user", "content": context},
+    ]
+    raw = await complete(messages, max_tokens=1800)
+    raw = re.sub(r'^```(?:json)?\s*\n?|\n?```\s*$', '', raw.strip())
+    try:
+        return json.loads(raw)
+    except json.JSONDecodeError:
+        return {"flashcards": []}
 
 
 @router.delete("/chat/{notebook_id}/history", status_code=204)
