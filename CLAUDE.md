@@ -288,6 +288,34 @@ Prompt: "Gib mir die 10 wichtigsten Konzepte und ihre Verbindungen als JSON:
 {nodes: [{id, label}], edges: [{source, target, relation}]}"
 ```
 
+### YouTube Transcript Import (geplant)
+```
+youtube.com/watch?v=... oder youtu.be/... URL erkennen
+→ youtube-transcript-api holt Transkript (kein API-Key nötig)
+→ Transkript wird wie Text gechunkt + embedded → RAG-ready
+
+Backend: parse_youtube() in rag/ingestion.py
+         YouTube-URL-Erkennung in api/sources.py (type="youtube")
+         Titel wird via og:title aus der YouTube-Seite gescraped (BeautifulSoup — kein neuer Dep)
+Frontend: SourceUpload-Placeholder zeigt Hinweis "YouTube URLs supported"
+          CitationChip zeigt Timestamp statt Seitenzahl wenn verfügbar
+
+Neue Abhängigkeit: youtube-transcript-api>=0.6.0 (kein API-Key nötig)
+```
+
+### Flashcard Generation (geplant)
+```
+POST /api/chat/{notebook_id}/flashcards
+→ Top 8 Chunks als Kontext → LLM generiert 8 Frage-Antwort-Karten als JSON
+→ {"flashcards": [{"front": "Frage?", "back": "Antwort"}]}
+
+Frontend: Flashcards.tsx — Klick zum Umdrehen, Vor/Zurück-Navigation
+          "Generate Flashcards" Button in der Sidebar unter AudioOverview
+          Karte zeigt Vorder-/Rückseite mit CSS-Flip-Animation (no lib needed)
+
+Kein neuer Dependency (backend oder frontend).
+```
+
 ---
 
 ## Deployment
@@ -395,7 +423,9 @@ app.add_middleware(
 - [ ] Konzept-Extraktion via LLM (JSON)
 - [ ] Mind Map via D3.js Force Graph
 - [ ] URL-Import (BeautifulSoup Scraper)
-- **✓ Tagesabschluss:** Notebook als Podcast hören + Mind Map explorieren
+- [ ] **YouTube Transcript Import** — `parse_youtube()`, URL-Erkennung, Titel-Scraping
+- [ ] **Flashcard Generation** — `/flashcards` Endpoint, `Flashcards.tsx` mit Flip-UI
+- **✓ Tagesabschluss:** Notebook als Podcast hören + Mind Map explorieren + YouTube importieren + Flashcards generieren
 
 ### Tag 5 — Polish + Deploy
 - [ ] Dark Mode (Tailwind dark:)
@@ -410,20 +440,26 @@ app.add_middleware(
 
 ---
 
-## Aktueller Stand (2026-06-29)
+## Aktueller Stand (2026-06-30)
 
-### Fertig (Tag 1 + 2 vollständig)
+### Fertig (Tag 1 + 2 + 3 + Tag 4 teilweise)
 - Backend: FastAPI + SQLite + alle 4 Tabellen, PDF/Text/URL-Ingestion, Chunking, Embedder, Retriever, Groq SSE, alle CRUD-Endpoints
-- Frontend: React + Vite + Tailwind, NotebookList, NotebookDetail, Drag-and-Drop Upload, SSE Chat mit Typewriter-Effekt, CitationChip (geparst + gerendert)
+- Frontend: React + Vite + Tailwind, NotebookList, NotebookDetail, Drag-and-Drop Upload, SSE Chat mit Typewriter-Effekt
+- CitationChip → PdfViewer vollständig verdrahtet (Klick öffnet PDF auf richtiger Seite) ✓
 - Auto-Summary beim Upload (Hintergrund-Job) ✓
+- Summary-Card in SourceList ✓
 - Render keep-alive Ping in App.tsx ✓
+- AudioOverview.tsx vollständig implementiert (Generate + Play/Stop + Web Speech API) ✓
+- URL-Import (BeautifulSoup) ✓
 
-### Offen (Tag 3–5)
-- **CitationChip → PdfViewer verknüpfen** — Klick auf Zitat soll PDF auf Seite X öffnen (react-pdf importiert, PdfViewer.tsx existiert, aber click handler fehlt)
-- **Audio Overview UI** — LLM-Endpoint existiert (`/chat/{id}/audio-overview`), AudioOverview.tsx ist Stub
-- **Mind Map** — D3.js in package.json, Komponente existiert, aber nicht verdrahtet
+### Offen (Tag 4 Rest + Tag 5)
+- **AudioOverview nicht in NotebookDetail eingebunden** — Komponente fertig, aber nicht importiert/gerendert
+- **YouTube Transcript Import** — geplant, noch nicht implementiert (Worktree)
+- **Flashcard Generation** — geplant, noch nicht implementiert (Worktree)
+- **Mind Map** — D3.js in package.json, kein MindMap-Component vorhanden, Cut-Scope-Kandidat
+- **PDF-Highlight** — PdfViewer navigiert zur Seite, aber kein Text-Highlight
 - **README.md** — fehlt noch
-- **Dark Mode** — Tailwind bereits konfiguriert, nur `dark:` Klassen fehlen
+- **Dark Mode** — Tailwind konfiguriert, `dark:` Klassen fehlen
 - **Loading Skeletons + Toast Notifications** — react-hot-toast importiert, kaum verwendet
 - **Deploy** — Dockerfile fertig, noch nicht auf Render/Vercel deployed
 
@@ -461,6 +497,7 @@ openai>=1.30.0
 python-dotenv>=1.0.0
 tiktoken>=0.7.0
 aiofiles>=23.2.1
+youtube-transcript-api>=0.6.0
 ```
 
 ### frontend/package.json (dependencies)
