@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { useStore } from '../store/useStore'
+import AboutModal from '../components/AboutModal'
 
 export default function NotebookList() {
   const { notebooks, fetchNotebooks, createNotebook, deleteNotebook } = useStore()
   const [title, setTitle] = useState('')
   const [creating, setCreating] = useState(false)
+  const [showAbout, setShowAbout] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => { fetchNotebooks() }, [fetchNotebooks])
@@ -86,6 +88,16 @@ export default function NotebookList() {
           </div>
         )}
       </div>
+
+      <button
+        onClick={() => setShowAbout(true)}
+        className="fixed bottom-6 right-6 z-40 w-9 h-9 flex items-center justify-center rounded-full bg-blue-600 opacity-50 hover:opacity-100 shadow-sm hover:shadow-md transition-opacity text-sm"
+        title="What can this app do?"
+      >
+        📄
+      </button>
+
+      {showAbout && <AboutModal onClose={() => setShowAbout(false)} />}
     </div>
   )
 }
