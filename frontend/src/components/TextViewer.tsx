@@ -31,25 +31,25 @@ export default function TextViewer({ fileUrl, sourceName, onClose }: Props) {
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-xl shadow-2xl max-h-[90vh] flex flex-col w-[620px] overflow-hidden"
+        className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-h-[90vh] flex flex-col w-[620px] overflow-hidden"
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-4 py-3 border-b shrink-0">
-          <span className="text-sm font-medium text-gray-700 truncate">{sourceName}</span>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-700 transition-colors">
+        <div className="flex items-center justify-between px-4 py-3 border-b dark:border-gray-700 shrink-0">
+          <span className="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">{sourceName}</span>
+          <button onClick={onClose} className="text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">
             ✕
           </button>
         </div>
 
         <div className="overflow-y-auto p-4">
           {error ? (
-            <p className="text-sm text-red-500">Datei konnte nicht geladen werden.</p>
+            <p className="text-sm text-red-500 dark:text-red-400">Datei konnte nicht geladen werden.</p>
           ) : content ? (
-            <pre className="text-sm text-gray-800 whitespace-pre-wrap font-mono leading-relaxed">
+            <pre className="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap font-mono leading-relaxed">
               {content}
             </pre>
           ) : (
-            <p className="text-sm text-gray-400">Laden…</p>
+            <p className="text-sm text-gray-400 dark:text-gray-500">Laden…</p>
           )}
         </div>
       </div>

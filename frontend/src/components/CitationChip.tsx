@@ -37,10 +37,10 @@ export default function CitationChip({ sourceName, page }: Props) {
         onClick={() => canOpen && setOpen(true)}
         className={`inline-flex items-center gap-1 px-2 py-0.5 mx-0.5 text-xs rounded-full border transition-colors ${
           isYouTube
-            ? 'bg-red-50 text-red-700 border-red-200 cursor-default'
+            ? 'bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-400 border-red-200 dark:border-red-800 cursor-default'
             : canOpen
-              ? 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100 cursor-pointer'
-              : 'bg-gray-50 text-gray-500 border-gray-200 cursor-default'
+              ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/50 cursor-pointer'
+              : 'bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-700 cursor-default'
         }`}
         title={title}
       >

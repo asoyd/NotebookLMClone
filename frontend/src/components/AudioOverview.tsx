@@ -55,8 +55,8 @@ export default function AudioOverview({ notebookId }: Props) {
   }
 
   return (
-    <div className="p-4 border border-gray-200 rounded-xl bg-white">
-      <h3 className="text-sm font-semibold text-gray-700 mb-3">🎙 Audio Overview</h3>
+    <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800">
+      <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">🎙 Audio Overview</h3>
 
       {script.length === 0 ? (
         <button
@@ -73,7 +73,7 @@ export default function AudioOverview({ notebookId }: Props) {
               <p
                 key={i}
                 className={`text-xs p-2 rounded transition-colors ${
-                  i === currentLine ? 'bg-purple-100 text-purple-800' : 'text-gray-600'
+                  i === currentLine ? 'bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300' : 'text-gray-600 dark:text-gray-400'
                 }`}
               >
                 <span className="font-semibold">{line.speaker}: </span>{line.text}
@@ -99,7 +99,7 @@ export default function AudioOverview({ notebookId }: Props) {
             <button
               onClick={generate}
               disabled={loading}
-              className="py-1.5 px-3 text-sm border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-50"
+              className="py-1.5 px-3 text-sm border border-gray-200 dark:border-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50"
               title="Regenerate"
             >
               ↺

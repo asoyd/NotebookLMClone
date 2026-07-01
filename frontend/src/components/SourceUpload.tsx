@@ -50,11 +50,11 @@ export default function SourceUpload({ notebookId }: Props) {
       <div
         {...getRootProps()}
         className={`border-2 border-dashed rounded-lg p-3 text-center cursor-pointer transition-colors ${
-          isDragActive ? 'border-blue-400 bg-blue-50' : 'border-gray-200 hover:border-blue-300'
+          isDragActive ? 'border-blue-400 bg-blue-50 dark:bg-blue-900/20' : 'border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-500'
         } ${uploading ? 'opacity-50 pointer-events-none' : ''}`}
       >
         <input {...getInputProps()} />
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-gray-500 dark:text-gray-400">
           {uploading ? 'Uploading…' : isDragActive ? 'Drop here' : 'Drop PDF/TXT or click to browse'}
         </p>
       </div>
@@ -64,7 +64,7 @@ export default function SourceUpload({ notebookId }: Props) {
           value={url}
           onChange={e => setUrl(e.target.value)}
           placeholder="Paste a URL or YouTube link…"
-          className="flex-1 text-xs px-2 py-1.5 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-blue-400"
+          className="flex-1 text-xs px-2 py-1.5 border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 rounded focus:outline-none focus:ring-1 focus:ring-blue-400"
           disabled={uploading}
         />
         <button

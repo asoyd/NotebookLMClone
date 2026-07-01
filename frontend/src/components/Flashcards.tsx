@@ -41,11 +41,11 @@ export default function Flashcards({ notebookId }: Props) {
   const card = flashcards[currentIndex]
 
   return (
-    <div className="p-4 border border-gray-200 rounded-xl bg-white">
-      <h3 className="text-sm font-semibold text-gray-700 mb-3">🃏 Flashcards</h3>
+    <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800">
+      <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">🃏 Flashcards</h3>
 
       {error && (
-        <p className="text-xs text-red-500 mb-2">{error}</p>
+        <p className="text-xs text-red-500 dark:text-red-400 mb-2">{error}</p>
       )}
 
       {flashcards.length === 0 ? (
@@ -73,7 +73,7 @@ export default function Flashcards({ notebookId }: Props) {
             >
               {/* Front */}
               <div
-                className="flex items-center justify-center p-3 bg-purple-50 rounded-lg text-sm text-center text-gray-800 font-medium"
+                className="flex items-center justify-center p-3 bg-purple-50 dark:bg-purple-900/30 rounded-lg text-sm text-center text-gray-800 dark:text-gray-100 font-medium"
                 style={{ backfaceVisibility: 'hidden' }}
               >
                 {card.front}
@@ -88,7 +88,7 @@ export default function Flashcards({ notebookId }: Props) {
             </div>
           </div>
 
-          <p className="text-xs text-center text-gray-400">
+          <p className="text-xs text-center text-gray-400 dark:text-gray-500">
             {flipped ? 'Answer' : 'Question'} · click to flip
           </p>
 
@@ -97,24 +97,24 @@ export default function Flashcards({ notebookId }: Props) {
             <button
               onClick={() => goTo(Math.max(0, currentIndex - 1))}
               disabled={currentIndex === 0}
-              className="py-1.5 px-3 text-sm border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-30"
+              className="py-1.5 px-3 text-sm border border-gray-200 dark:border-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-30"
             >
               ←
             </button>
-            <span className="flex-1 text-xs text-center text-gray-500">
+            <span className="flex-1 text-xs text-center text-gray-500 dark:text-gray-400">
               {currentIndex + 1} / {flashcards.length}
             </span>
             <button
               onClick={() => goTo(Math.min(flashcards.length - 1, currentIndex + 1))}
               disabled={currentIndex === flashcards.length - 1}
-              className="py-1.5 px-3 text-sm border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-30"
+              className="py-1.5 px-3 text-sm border border-gray-200 dark:border-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-30"
             >
               →
             </button>
             <button
               onClick={generate}
               disabled={loading}
-              className="py-1.5 px-3 text-sm border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-50"
+              className="py-1.5 px-3 text-sm border border-gray-200 dark:border-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50"
               title="Regenerate"
             >
               ↺

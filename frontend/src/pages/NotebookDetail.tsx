@@ -27,29 +27,29 @@ export default function NotebookDetail() {
 
   return (
     <div className="h-screen flex flex-col">
-      <header className="flex items-center gap-4 px-6 py-3 border-b border-gray-200 bg-white shrink-0">
+      <header className="flex items-center gap-4 px-6 py-3 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shrink-0">
         <button
           onClick={() => navigate('/')}
-          className="text-gray-400 hover:text-gray-700 transition-colors"
+          className="text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
         >
           ← Notebooks
         </button>
-        <h1 className="text-lg font-semibold text-gray-900 truncate">
+        <h1 className="text-lg font-semibold text-gray-900 dark:text-gray-100 truncate">
           {currentNotebook?.title ?? '…'}
         </h1>
       </header>
 
       <div className="flex-1 flex overflow-hidden">
-        <aside className="w-80 border-r border-gray-200 bg-gray-50 flex flex-col overflow-hidden shrink-0">
-          <div className="p-4 border-b border-gray-200">
-            <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+        <aside className="w-80 border-r border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 flex flex-col overflow-hidden shrink-0">
+          <div className="p-4 border-b border-gray-200 dark:border-gray-800">
+            <h2 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
               Sources
             </h2>
             <SourceUpload notebookId={id} />
           </div>
           <div className="flex-1 overflow-y-auto">
             <SourceList notebookId={id} />
-            <div className="p-4 border-t border-gray-200 space-y-3">
+            <div className="p-4 border-t border-gray-200 dark:border-gray-800 space-y-3">
               <AudioOverview notebookId={id} />
               <Flashcards notebookId={id} />
             </div>
