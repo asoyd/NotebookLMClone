@@ -83,6 +83,8 @@ def parse_youtube(url: str) -> list[dict]:
         YouTubeTranscriptApi,
         NoTranscriptFound,
         TranscriptsDisabled,
+        IpBlocked,
+        RequestBlocked,
         CouldNotRetrieveTranscript,
     )
 
@@ -98,6 +100,15 @@ def parse_youtube(url: str) -> list[dict]:
         raise ValueError(
             "No transcript found for this video. "
             "Try a video with captions enabled (auto-generated or manual)."
+        )
+    except (IpBlocked, RequestBlocked):
+        # YouTube blocks requests from cloud/datacenter IPs (Render, AWS, GCP, ...).
+        # This is unrelated to the specific video and will fail for every URL on
+        # a hosted deployment — only works when the backend runs from a residential IP.
+        raise ValueError(
+            "YouTube import isn't available on this deployment: YouTube blocks "
+            "requests from cloud server IPs (a known limitation, not specific to "
+            "this video). YouTube import works when running the project locally."
         )
     except CouldNotRetrieveTranscript as e:
         raise ValueError(f"Could not retrieve transcript: {e}")

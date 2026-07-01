@@ -9,6 +9,8 @@ Ein KI-gestützter Forschungsassistent. Dokumente hochladen (PDF, Text, URL, You
 
 > ⚠️ Das Backend läuft auf Render Free Tier. Nach 15 Minuten Inaktivität braucht der Server beim ersten Aufruf ca. 30–60 Sekunden zum Aufwachen. Danach reagiert alles sofort.
 
+> ⚠️ **YouTube Import funktioniert in der Live-Demo nicht.** YouTube blockiert Transkript-Anfragen von Cloud-Server-IPs (Render, AWS, GCP, ...) grundsätzlich — unabhängig vom jeweiligen Video. Das Feature läuft nur bei lokalem Setup (siehe unten), wo die Anfrage von einer normalen Heim-IP kommt.
+
 ## Features
 
 - **RAG-Chat mit Zitierungen** — Fragen werden mit [Quelle: Datei, Seite X] beantwortet

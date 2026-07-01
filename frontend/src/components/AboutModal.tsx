@@ -66,7 +66,7 @@ export default function AboutModal({ onClose }: AboutModalProps) {
           </ul>
         </section>
 
-        <section>
+        <section className="mb-5">
           <h3 className="text-xs font-semibold text-red-500 dark:text-red-400 uppercase tracking-wider mb-2">
             Can't do
           </h3>
@@ -79,6 +79,12 @@ export default function AboutModal({ onClose }: AboutModalProps) {
             ))}
           </ul>
         </section>
+
+        <p className="text-xs text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 pt-3">
+          Note: YouTube import doesn't work on this hosted demo — YouTube blocks
+          transcript requests from cloud server IPs (Render, AWS, GCP, ...) regardless
+          of the video. It works when running the project locally.
+        </p>
       </div>
     </div>
   )
