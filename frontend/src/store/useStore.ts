@@ -11,6 +11,7 @@ interface AppStore {
 
   fetchNotebooks: () => Promise<void>
   createNotebook: (title: string) => Promise<Notebook>
+  deleteNotebook: (id: string) => Promise<void>
   setCurrentNotebook: (notebook: Notebook | null) => void
   fetchSources: (notebookId: string) => Promise<void>
   uploadSource: (notebookId: string, fileOrUrl: File | string) => Promise<void>
@@ -35,6 +36,11 @@ export const useStore = create<AppStore>((set, get) => ({
     const notebook = await api.createNotebook(title)
     set(s => ({ notebooks: [notebook, ...s.notebooks] }))
     return notebook
+  },
+
+  deleteNotebook: async (id) => {
+    await api.deleteNotebook(id)
+    set(s => ({ notebooks: s.notebooks.filter(nb => nb.id !== id) }))
   },
 
   setCurrentNotebook: (notebook) => set({ currentNotebook: notebook }),

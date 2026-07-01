@@ -4,7 +4,7 @@ import toast from 'react-hot-toast'
 import { useStore } from '../store/useStore'
 
 export default function NotebookList() {
-  const { notebooks, fetchNotebooks, createNotebook } = useStore()
+  const { notebooks, fetchNotebooks, createNotebook, deleteNotebook } = useStore()
   const [title, setTitle] = useState('')
   const [creating, setCreating] = useState(false)
   const navigate = useNavigate()
@@ -56,16 +56,32 @@ export default function NotebookList() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {notebooks.map(nb => (
-              <button
+              <div
                 key={nb.id}
                 onClick={() => navigate(`/notebook/${nb.id}`)}
-                className="text-left p-5 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md hover:border-blue-300 transition-all"
+                className="relative group text-left p-5 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md hover:border-blue-300 transition-all cursor-pointer"
               >
-                <h3 className="font-semibold text-gray-900 truncate">{nb.title}</h3>
+                <h3 className="font-semibold text-gray-900 truncate pr-6">{nb.title}</h3>
                 <p className="text-xs text-gray-400 mt-2">
                   {new Date(nb.created_at).toLocaleDateString()}
                 </p>
-              </button>
+                <button
+                  onClick={async (e) => {
+                    e.stopPropagation()
+                    if (!window.confirm(`"${nb.title}" löschen?`)) return
+                    try {
+                      await deleteNotebook(nb.id)
+                      toast.success('Notebook gelöscht')
+                    } catch {
+                      toast.error('Löschen fehlgeschlagen')
+                    }
+                  }}
+                  className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 p-1 text-gray-400 hover:text-red-500 transition-all"
+                  title="Notebook löschen"
+                >
+                  ✕
+                </button>
+              </div>
             ))}
           </div>
         )}
