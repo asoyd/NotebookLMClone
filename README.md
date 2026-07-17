@@ -11,6 +11,12 @@ Ein KI-gestützter Forschungsassistent. Dokumente hochladen (PDF, Text, URL, You
 
 > ⚠️ **YouTube Import funktioniert in der Live-Demo nicht.** YouTube blockiert Transkript-Anfragen von Cloud-Server-IPs (Render, AWS, GCP, ...) grundsätzlich — unabhängig vom jeweiligen Video. Das Feature läuft nur bei lokalem Setup (siehe unten), wo die Anfrage von einer normalen Heim-IP kommt.
 
+## Screenshots
+
+| Notebooks | Chat mit Zitierungen, Audio Overview & Flashcards |
+|---|---|
+| ![Notebook-Übersicht](screenshots/notebook-list.png) | ![Notebook-Detail mit Chat](screenshots/notebook-detail.png) |
+
 ## Features
 
 - **RAG-Chat mit Zitierungen** — Fragen werden mit [Quelle: Datei, Seite X] beantwortet

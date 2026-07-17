@@ -9,7 +9,15 @@ export default function NotebookList() {
   const [title, setTitle] = useState('')
   const [creating, setCreating] = useState(false)
   const [showAbout, setShowAbout] = useState(false)
+  const [showColdStartNote, setShowColdStartNote] = useState(
+    () => sessionStorage.getItem('hideColdStartNote') !== '1'
+  )
   const navigate = useNavigate()
+
+  const dismissColdStartNote = () => {
+    sessionStorage.setItem('hideColdStartNote', '1')
+    setShowColdStartNote(false)
+  }
 
   useEffect(() => { fetchNotebooks() }, [fetchNotebooks])
 
@@ -33,6 +41,24 @@ export default function NotebookList() {
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1">My Notebooks</h1>
         <p className="text-gray-500 dark:text-gray-400 mb-8">Upload documents and chat with your sources</p>
+
+        {showColdStartNote && (
+          <div className="flex items-start gap-3 mb-8 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg text-sm text-amber-800 dark:text-amber-300">
+            <span>⏳</span>
+            <p className="flex-1">
+              This demo runs on a free hosting tier — if the backend has been idle, the first
+              request can take <strong>30–60 seconds</strong> to wake up. Please hang tight after
+              your first action; everything is fast afterwards.
+            </p>
+            <button
+              onClick={dismissColdStartNote}
+              className="text-amber-500 hover:text-amber-700 dark:hover:text-amber-100"
+              title="Dismiss"
+            >
+              ✕
+            </button>
+          </div>
+        )}
 
         <form onSubmit={handleCreate} className="flex gap-3 mb-8">
           <input
