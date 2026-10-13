@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime,timezone import datetime
 from typing import Optional
 from uuid import uuid4
 from sqlmodel import SQLModel, Field
