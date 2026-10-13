@@ -546,7 +546,8 @@ Alternativ: Das Projekt lokal starten (siehe README → Local Setup).
 # Backend
 cd backend
 python -m venv venv
-source venv/bin/activate
+# source venv/bin/activate 
+venv\Scripts\activate 
 pip install -r requirements.txt
 cp .env.example .env  # GROQ_API_KEY eintragen
 uvicorn main:app --reload --port 8000

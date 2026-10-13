@@ -36,7 +36,7 @@ export default function NotebookList() {
       setCreating(false)
     }
   }
-
+  
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-8 mt-2">
       <div className="max-w-4xl mx-auto mt-20">
@@ -75,7 +75,10 @@ export default function NotebookList() {
             disabled={creating || !title.trim()}
             className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
           >
-            {creating ? 'Creating…' : 'Create'}
+            <div className='flex items-center justify-center gap-2'>
+            {creating ? 'Creating' : 'Create'}
+            {creating && <div className="spinner" role="status" aria-label="Loading" />}   
+            </div>
           </button>
         </form>
 
