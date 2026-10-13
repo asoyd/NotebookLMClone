@@ -26,7 +26,7 @@ app = FastAPI(title="NotebookLM Clone API", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["https://notebook-lm-clone-918h.vercel.app","http://localhost:5173"],
     allow_origin_regex=r"https://.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
