@@ -9,8 +9,8 @@ client = AsyncOpenAI(
     api_key=os.environ["GROQ_API_KEY"],
 )
 
-PRIMARY_MODEL = "llama-3.3-70b-versatile"
-FALLBACK_MODEL = "llama3-8b-8192"  # use if rate-limited
+PRIMARY_MODEL = "qwen/qwen3.8-27b"
+FALLBACK_MODEL = "openai/gpt-oss-120b"  # use if rate-limited
 
 
 async def stream_chat(messages: list[dict]):
