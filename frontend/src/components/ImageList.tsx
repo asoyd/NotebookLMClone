@@ -6,16 +6,16 @@
 // }));
 const images = [
 //   { id: 1, src: '../public/img/notebook-list.png', alt: 'list' },
-{ id: 3, src: '../public/img/notebooks.png', alt: 'detail' },
-{ id: 2, src: '../public/img/notebook-detail.png', alt: 'detail' },
+{ id: 3, src: '/img/notebooks.png', alt: 'detail' },
+{ id: 2, src: '/img/notebook-detail.png', alt: 'detail' },
 ]
 const features = [
 //   { id: 4, src: '../public/img/editor.png', alt: 'detail' },
 //   { id: 5, src: '../public/img/darkmode.png', alt: 'detail' },
-  { id: 6, src: '../public/img/audio-narration1.png', alt: 'detail' },
-  { id: 7, src: '../public/img/audio-narration2.png', alt: 'detail' },
-  { id: 8, src: '../public/img/flashcard-question.png', alt: 'detail' },
-  { id: 9, src: '../public/img/flashcards-answer.png', alt: 'detail' },
+  { id: 6, src: '/img/audio-narration1.png', alt: 'detail' },
+  { id: 7, src: '/img/audio-narration2.png', alt: 'detail' },
+  { id: 8, src: '/img/flashcard-question.png', alt: 'detail' },
+  { id: 9, src: '/img/flashcards-answer.png', alt: 'detail' },
 
 
 ];   
