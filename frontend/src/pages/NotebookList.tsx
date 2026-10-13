@@ -38,8 +38,8 @@ export default function NotebookList() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-8">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-8 mt-2">
+      <div className="max-w-4xl mx-auto mt-20">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1">My Notebooks</h1>
         <p className="text-gray-500 dark:text-gray-400 mb-8">Upload documents and chat with your sources</p>
 
@@ -116,7 +116,7 @@ export default function NotebookList() {
             ))}
           </div>
         )}
-      <ImageList />
+        <ImageList />
       </div>
 
       <button
