@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { useStore } from '../store/useStore'
 import AboutModal from '../components/AboutModal'
+import ImageList from '../components/ImageList'
 
 export default function NotebookList() {
   const { notebooks, fetchNotebooks, createNotebook, deleteNotebook } = useStore()
@@ -41,6 +42,8 @@ export default function NotebookList() {
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1">My Notebooks</h1>
         <p className="text-gray-500 dark:text-gray-400 mb-8">Upload documents and chat with your sources</p>
+
+
 
         {showColdStartNote && (
           <div className="flex items-start gap-3 mb-8 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg text-sm text-amber-800 dark:text-amber-300">
@@ -113,6 +116,7 @@ export default function NotebookList() {
             ))}
           </div>
         )}
+      <ImageList />
       </div>
 
       <button
