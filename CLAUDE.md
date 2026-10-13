@@ -112,7 +112,8 @@ notebooklm-clone/
 class Notebook(SQLModel, table=True):
     id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True)
     title: str
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    # created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 # Source — eine hochgeladene Datei oder URL
 class Source(SQLModel, table=True):
@@ -123,7 +124,9 @@ class Source(SQLModel, table=True):
     file_path: Optional[str]     # Pfad zur gespeicherten Datei
     summary: Optional[str]       # Auto-generiert beim Upload
     status: str = "processing"   # "processing" | "ready" | "error"
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    # created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
 
 # Chunk — Textsegment mit Embedding
 class Chunk(SQLModel, table=True):
@@ -143,7 +146,9 @@ class ChatMessage(SQLModel, table=True):
     role: str                    # "user" | "assistant"
     content: str                 # Markdown-Text
     citations: Optional[str]     # JSON: [{source_id, chunk_id, page}]
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    # created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
 ```
 
 ---

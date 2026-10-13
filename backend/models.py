@@ -7,8 +7,7 @@ from sqlmodel import SQLModel, Field
 class Notebook(SQLModel, table=True):
     id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True)
     title: str
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 class Source(SQLModel, table=True):
     id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True)
@@ -18,8 +17,7 @@ class Source(SQLModel, table=True):
     file_path: Optional[str] = None
     summary: Optional[str] = None
     status: str = "processing"  # "processing" | "ready" | "error"
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 class Chunk(SQLModel, table=True):
     id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True)
@@ -38,4 +36,4 @@ class ChatMessage(SQLModel, table=True):
     role: str  # "user" | "assistant"
     content: str
     citations: Optional[str] = None  # JSON: [{source_id, chunk_id, page}]
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
